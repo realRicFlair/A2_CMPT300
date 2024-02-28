@@ -11,10 +11,13 @@
 
 // Launches
 int main(int argc, char* argv[]) {
+    printf("[=== Welcome to Simple-Talk! ===]\n");
+    printf("You can exit by typing  !  or  !exit \n");
+
     if (argc != 4) {
-        printf("Invalid Arguments!\n Should look like this: ");
+        printf("Invalid Arguments!\n General format is: ");
         printf(
-            "./s-talk [local port] "
+            "./s-talk [my port number] "
             "[remote machine name]"
             "[remote port number]\n");
         return -1;
@@ -39,10 +42,10 @@ int main(int argc, char* argv[]) {
     displayInit(rd_queue);
 
     // Wait for Threads to finish
-    keyboardShutdown();
+    keyboardShutdown();//Keyboard doesnt have pthread_cancel(). Causes others to shutdown
+    displayShutdown();
     sendShutdown();
     receiveShutdown();
-    displayShutdown();
 
     // Cleanup
     Queue_Destroy(ks_queue);

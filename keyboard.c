@@ -17,7 +17,6 @@ static void* runloop(void* arg) {
     size_t bufferlen = 0;
     ssize_t msg_len;
     
-    printf("Welcome to Simple-Talk!\n");
     while ((msg_len = getline(&buffer, &bufferlen, stdin)) != -1) {
         if (buffer[msg_len - 1] == '\n') {
             buffer[msg_len - 1] = '\0';
@@ -25,8 +24,7 @@ static void* runloop(void* arg) {
         }
 
         // Break when exit command
-        if (strcmp(buffer, "exit") == 0 || strcmp(buffer, "!") == 0) {
-            printf("Exiting . . .\n");
+        if (strcmp(buffer, "!exit") == 0 || strcmp(buffer, "!") == 0) {
             break;
         }
 
@@ -42,7 +40,7 @@ static void* runloop(void* arg) {
         }
 
     }
-
+    printf("Exiting . . .\n");
     free(buffer);
     pthread_exit(NULL);
 }

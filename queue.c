@@ -26,10 +26,11 @@ Queue* Queue_Create() {
 
 void Queue_Destroy(Queue* q) {
     if (q) {
+        List_free(q->list, free);
+        
         pthread_mutex_destroy(&q->mutex);
         pthread_cond_destroy(&q->cond);
 
-        List_free(q->list, free);
         free(q);
     }
 }

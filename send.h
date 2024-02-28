@@ -5,5 +5,6 @@
 
 void sendInit(Queue* q, char* LocalPort, char* RemoteName, char* RemotePort);
 void sendShutdown();
+void sendCancel();
 
 #endif

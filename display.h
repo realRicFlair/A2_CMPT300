@@ -6,5 +6,6 @@
 void* displayloop(void* arg);
 void displayInit(Queue* q);
 void displayShutdown();
+void displayCancel();
 
 #endif

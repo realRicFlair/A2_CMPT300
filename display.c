@@ -7,9 +7,11 @@
 static Queue* rd_queue;
 static pthread_t displayThread;
 
+static char* msg;
+
 void* displayloop(void* arg) {
     while (1) {
-        char* msg = dequeue_msg(rd_queue);
+        msg = dequeue_msg(rd_queue);
         if (msg != NULL) {
             printf("Received: %s\n", msg);
             free(msg);
@@ -29,8 +31,12 @@ void displayInit(Queue* q) {
     }
 }
 
+void displayCancel() { pthread_cancel(displayThread); }
+
 void displayShutdown() {
     pthread_cancel(displayThread);
     pthread_join(displayThread, NULL);
+    free(msg);
+    msg = NULL;
     printf("[Display Thread] Shutdown\n");
 }

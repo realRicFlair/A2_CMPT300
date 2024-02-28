@@ -6,5 +6,6 @@
 void* receiveloop(void* arg);
 void receiveInit(Queue* rd_queue, char* lp);
 void receiveShutdown();
+void receiveCancel();
 
 #endif

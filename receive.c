@@ -32,8 +32,7 @@ void* receiveloop(void* arg) {
     }
 
     for (p = servinfo; p != NULL; p = p->ai_next) {
-        if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) ==
-            -1) {
+        if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
             perror("[Receive Thread] socket");
             continue;
         }
@@ -71,6 +70,8 @@ void* receiveloop(void* arg) {
     }
 
     close(sockfd);
+    free(localPort);
+    free(buf);
     pthread_exit(NULL);
 }
 
@@ -84,6 +85,8 @@ void receiveInit(Queue* q, char* lp) {
         exit(-1);
     }
 }
+
+void receiveCancel() { pthread_cancel(recvThread); }
 
 void receiveShutdown() {
     pthread_cancel(recvThread);

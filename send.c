@@ -21,10 +21,11 @@ static char* remotePort;
 static char* localPort;
 static Queue* ks_queue;
 static pthread_t sendThread;
+static int shouldTerminate = false;
+static struct addrinfo hints, *servinfo, *p;
+static int sockfd;
 
 void* sendloop(void* arg) {
-    int sockfd;
-    struct addrinfo hints, *servinfo, *p;
     int rv;
     int numbytes;
 
@@ -52,7 +53,7 @@ void* sendloop(void* arg) {
         return NULL;
     }
 
-    while (1) {
+    while (!shouldTerminate) {
         char* msg = dequeue_msg(ks_queue);
         if (msg != NULL) {
             if ((numbytes = sendto(sockfd, msg, strlen(msg), 0, p->ai_addr, p->ai_addrlen)) == -1) {
@@ -65,7 +66,7 @@ void* sendloop(void* arg) {
             free(msg);
         }
     }
-
+    printf("Freeing");
     freeaddrinfo(servinfo);
     close(sockfd);
     pthread_exit(NULL);
@@ -84,7 +85,16 @@ void sendInit(Queue* q, char* lp, char* rmnm, char* rmprt) {
     }
 }
 
+void sendCancel() { 
+    
+    pthread_cancel(sendThread); 
+}
 void sendShutdown() {
+    shouldTerminate = true;
+    printf("Freeing");
+    freeaddrinfo(servinfo);
+    close(sockfd);
+
     pthread_cancel(sendThread);
     pthread_join(sendThread, NULL);
     printf("[Send Thread] Shutdown\n");

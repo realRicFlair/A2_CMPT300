@@ -1,4 +1,4 @@
-CFLAGS = -std=gnu17 -Wall -Werror 
+CFLAGS = -std=gnu17 -Wall -Werror -g
 
 all: build
 
