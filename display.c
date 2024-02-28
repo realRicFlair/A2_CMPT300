@@ -11,7 +11,7 @@ void* displayloop(void* arg) {
     while (1) {
         char* msg = dequeue_msg(rd_queue);
         if (msg != NULL) {
-            printf("[Display Thread] Received: %s\n", msg);
+            printf("Received: %s\n", msg);
             free(msg);
         }
     }

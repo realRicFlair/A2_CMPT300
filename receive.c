@@ -27,20 +27,20 @@ void* receiveloop(void* arg) {
     hints.ai_flags = AI_PASSIVE;
 
     if ((rv = getaddrinfo(NULL, localPort, &hints, &servinfo)) != 0) {
-        fprintf(stderr, "[Receiver] getaddrinfo: %s\n", gai_strerror(rv));
+        fprintf(stderr, "[Receive Thread] getaddrinfo: %s\n", gai_strerror(rv));
         return NULL;
     }
 
     for (p = servinfo; p != NULL; p = p->ai_next) {
         if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) ==
             -1) {
-            perror("[Receiver] socket");
+            perror("[Receive Thread] socket");
             continue;
         }
 
         if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1) {
             close(sockfd);
-            perror("[Receiver] bind");
+            perror("[Receive Thread] bind");
             continue;
         }
 

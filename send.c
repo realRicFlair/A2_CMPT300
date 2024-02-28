@@ -59,8 +59,9 @@ void* sendloop(void* arg) {
                 perror("[Sender] sendto");
                 continue;
             }
-
-            printf("[Send Thread] Sent: %s\n", msg);
+            
+            //for debugging purposes mostly
+            //printf("[Send Thread] Sent: %s\n", msg);
             free(msg);
         }
     }

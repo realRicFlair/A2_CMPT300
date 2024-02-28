@@ -17,7 +17,7 @@ static void* runloop(void* arg) {
     size_t bufferlen = 0;
     ssize_t msg_len;
     
-
+    printf("Welcome to Simple-Talk!\n");
     while ((msg_len = getline(&buffer, &bufferlen, stdin)) != -1) {
         if (buffer[msg_len - 1] == '\n') {
             buffer[msg_len - 1] = '\0';
@@ -25,20 +25,20 @@ static void* runloop(void* arg) {
         }
 
         // Break when exit command
-        if (strcmp(buffer, "exit") == 0 || strcmp(buffer, "!\n") == 0) {
+        if (strcmp(buffer, "exit") == 0 || strcmp(buffer, "!") == 0) {
             printf("Exiting . . .\n");
             break;
         }
 
         char* msg = (char*)malloc(msg_len + 1);
         if (msg == NULL) {
-            perror("[Keyboard] Failed to allocate mem for message");
+            perror("[Keyboard Thread] Failed to allocate mem for message");
         }
         strcpy(msg, buffer);
         int enqueue_result = enqueue_msg(ks_queue, msg);
         
         if (enqueue_result == -1){
-            perror("[Keyboard] Queue full/error. Message possibly too long\n");
+            perror("[Keyboard Thread] Queue full/error. Message possibly too long\n");
         }
 
     }
@@ -52,7 +52,7 @@ void keyboardInit(Queue* q) {
 
     int x = pthread_create(&kthread, NULL, runloop, NULL); 
     if (x != 0) {
-        perror("[Keyboard] thread could not be created");
+        perror("[Keyboard Thread] thread could not be created");
         exit(-1);
     }
 }
