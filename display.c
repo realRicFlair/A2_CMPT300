@@ -36,7 +36,6 @@ void displayCancel() { pthread_cancel(displayThread); }
 void displayShutdown() {
     pthread_cancel(displayThread);
     pthread_join(displayThread, NULL);
-    free(msg);
     msg = NULL;
     printf("[Display Thread] Shutdown\n");
 }
