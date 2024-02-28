@@ -45,7 +45,6 @@ int main(int argc, char* argv[]) {
     displayShutdown();
 
     // Cleanup
-    printf("Exiting\n");
     Queue_Destroy(ks_queue);
     Queue_Destroy(rd_queue);
     return 0;

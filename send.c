@@ -59,7 +59,7 @@ void* sendloop(void* arg) {
                 perror("[Sender] sendto");
                 continue;
             }
-            
+
             //for debugging purposes mostly
             //printf("[Send Thread] Sent: %s\n", msg);
             free(msg);
@@ -87,4 +87,5 @@ void sendInit(Queue* q, char* lp, char* rmnm, char* rmprt) {
 void sendShutdown() {
     pthread_cancel(sendThread);
     pthread_join(sendThread, NULL);
+    printf("[Send Thread] Shutdown\n");
 }

@@ -32,4 +32,5 @@ void displayInit(Queue* q) {
 void displayShutdown() {
     pthread_cancel(displayThread);
     pthread_join(displayThread, NULL);
+    printf("[Display Thread] Shutdown\n");
 }

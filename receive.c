@@ -88,4 +88,5 @@ void receiveInit(Queue* q, char* lp) {
 void receiveShutdown() {
     pthread_cancel(recvThread);
     pthread_join(recvThread, NULL);
+    printf("[Receive Thread] Shutdown\n");
 }

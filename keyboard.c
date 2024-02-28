@@ -58,4 +58,7 @@ void keyboardInit(Queue* q) {
 }
 
 void keyboardCancel() { pthread_cancel(kthread); }
-void keyboardShutdown() { pthread_join(kthread, NULL); }
+void keyboardShutdown() {
+    pthread_join(kthread, NULL);
+    printf("[Keyboard Thread] Shutdown\n");
+}
