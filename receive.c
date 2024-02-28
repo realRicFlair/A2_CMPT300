@@ -56,8 +56,7 @@ void* receiveloop(void* arg) {
 
     while (1) {
         addr_len = sizeof their_addr;
-        int numbytes = recvfrom(sockfd, buf, MAX_BUFFER_LENGTH - 1, 0,
-                                (struct sockaddr*)&their_addr, &addr_len);
+        int numbytes = recvfrom(sockfd, buf, MAX_BUFFER_LENGTH - 1, 0, (struct sockaddr*)&their_addr, &addr_len);
 
         if (numbytes == -1) {
             perror("[Receiver] recvfrom");
@@ -65,7 +64,7 @@ void* receiveloop(void* arg) {
         }
 
         buf[numbytes] = '\0';
-        char* msg = strdup(buf); // Duplicate buffer to message
+        char* msg = strdup(buf); // Create message from buffer
         if (msg != NULL) {
             enqueue_msg(rd_queue, msg);
         }

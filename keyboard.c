@@ -50,7 +50,7 @@ static void* runloop(void* arg) {
 void keyboardInit(Queue* q) {
     ks_queue = q;
 
-    int x = pthread_create(&kthread, NULL, runloop, NULL); //Didnt pass on the list cus I assume it has to be static anyways
+    int x = pthread_create(&kthread, NULL, runloop, NULL); 
     if (x != 0) {
         perror("[Keyboard] thread could not be created");
         exit(-1);

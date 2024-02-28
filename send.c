@@ -29,8 +29,8 @@ void* sendloop(void* arg) {
     int numbytes;
 
     memset(&hints, 0, sizeof hints);
-    hints.ai_family = AF_UNSPEC;  // set to AF_INET to force IPv4, AF_INET6 for
-                                  // IPv6, AF_UNSPEC for any
+    // Set to AF_INET to force IPv4, AF_INET6 for IPv6, or AF_UNSPEC for any
+    hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_DGRAM;
 
     if ((rv = getaddrinfo(remoteName, remotePort, &hints, &servinfo)) != 0) {
@@ -38,14 +38,13 @@ void* sendloop(void* arg) {
         return NULL;
     }
 
-    // Loop through results and make a socket
+    // Loop through getaddr linked list, and make a socket
     for (p = servinfo; p != NULL; p = p->ai_next) {
-        if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) ==
-            -1) {
+        if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1) {
             perror("[Sender] Socket");
             continue;
         }
-        break;  // if we get here, we must have connected successfully
+        break;
     }
 
     if (p == NULL) {
@@ -56,8 +55,7 @@ void* sendloop(void* arg) {
     while (1) {
         char* msg = dequeue_msg(ks_queue);
         if (msg != NULL) {
-            if ((numbytes = sendto(sockfd, msg, strlen(msg), 0, p->ai_addr,
-                                   p->ai_addrlen)) == -1) {
+            if ((numbytes = sendto(sockfd, msg, strlen(msg), 0, p->ai_addr, p->ai_addrlen)) == -1) {
                 perror("[Sender] sendto");
                 continue;
             }
